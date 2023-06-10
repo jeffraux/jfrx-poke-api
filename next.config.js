@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+
 const nextConfig = {
   images: {
     remotePatterns: [
@@ -6,7 +7,7 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'raw.githubusercontent.com',
         port: '',
-        pathname: '/PokeAPI/media/master/**',
+        pathname: '/PokeAPI/**',
       },
     ],
   },

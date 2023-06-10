@@ -5,11 +5,11 @@ import Image from 'next/image'
 import Card from './_components/Card'
 
 import { fetchList } from './_utils/api'
-import { IPokemonListResponse, PokemonListResultItem } from './_utils/types'
+import { IPokemonListResponse, ResultItem } from './_utils/types'
 
 const Home = () => {
-  const [pokemonList, setPokemonList] = useState<PokemonListResultItem[]>([])
-  const [pageInfo, setPageInfo] = useState({ index: 0, size: 10, total: 0 })
+  const [pokemonList, setPokemonList] = useState<ResultItem[]>([])
+  const [pageInfo, setPageInfo] = useState({ index: 0, size: 15, total: 0 })
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
@@ -17,17 +17,17 @@ const Home = () => {
     fetchList({
       endpoint: 'pokemon',
       limit: pageInfo.size,
-      offset: pageInfo.index,
+      offset: pageInfo.index * pageInfo.size,
       callback: (res: IPokemonListResponse) => {
-        setLoading(false)
         setPokemonList(res.results)
+        setLoading(false)
       }
     })
-  }, [])
+  }, [pageInfo.index, pageInfo.size])
 
   return (
-    <main className="flex min-h-screen flex-col items-center p-12">
-      <div className="z-10 w-full max-w-5xl mb-16 items-center justify-center font-mono text-sm flex">
+    <main className="flex min-h-screen flex-col items-center p-12 font-sans">
+      <div className="z-10 w-full max-w-5xl mb-16 items-center justify-center text-sm flex">
         <Image
           src="https://raw.githubusercontent.com/PokeAPI/media/master/logo/pokeapi_256.png"
           alt="Poke API logo"
