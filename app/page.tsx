@@ -6,10 +6,11 @@ import Card from './_components/Card'
 
 import { fetchList } from './_utils/api'
 import { IPokemonListResponse, ResultItem } from './_utils/types'
+import Pagination from './_components/Pagination'
 
 const Home = () => {
   const [pokemonList, setPokemonList] = useState<ResultItem[]>([])
-  const [pageInfo, setPageInfo] = useState({ index: 0, size: 15, total: 0 })
+  const [pageInfo, setPageInfo] = useState({ index: 0, size: 10, total: 0 })
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
@@ -19,6 +20,11 @@ const Home = () => {
       limit: pageInfo.size,
       offset: pageInfo.index * pageInfo.size,
       callback: (res: IPokemonListResponse) => {
+        setPageInfo({
+          index: pageInfo.index,
+          size: pageInfo.size,
+          total: res.count,
+        })
         setPokemonList(res.results)
         setLoading(false)
       }
@@ -41,6 +47,10 @@ const Home = () => {
         {pokemonList.map(pokemon => (
           <Card key={pokemon.name} pokemon={pokemon} />
         ))}
+      </div>
+
+      <div className="mt-8">
+        <Pagination pageInfo={pageInfo} />
       </div>
     </main>
   )

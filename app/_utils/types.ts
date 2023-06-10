@@ -37,12 +37,12 @@ export interface IListApiRequest {
   endpoint: string
   limit: number
   offset: number
-  callback: any
+  callback: (res: IPokemonListResponse) => void
 }
 
 export interface IDetailsApiRequest {
   url: string
-  callback: any
+  callback: (res: IPokemonDetails) => void
 }
 
 export interface IPokemonListResponse {
