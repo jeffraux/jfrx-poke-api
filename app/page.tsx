@@ -13,6 +13,14 @@ const Home = () => {
   const [pageInfo, setPageInfo] = useState({ index: 0, size: 10, total: 0 })
   const [loading, setLoading] = useState(false)
 
+  const handleGoToPage = (index: number) => {
+    setPageInfo({ ...pageInfo, index })
+  }
+
+  const handleChangePageSize = (size: number) => {
+    setPageInfo({ ...pageInfo, size })
+  }
+
   useEffect(() => {
     setLoading(true)
     fetchList({
@@ -43,14 +51,18 @@ const Home = () => {
         />
       </div>
 
-      <div className="mb-32 grid gap-6 text-center lg:mb-0 sm:grid-cols-2 lg:grid-cols-5">
+      <div className="mb-2 grid gap-6 text-center sm:grid-cols-2 lg:grid-cols-5">
         {pokemonList.map(pokemon => (
           <Card key={pokemon.name} pokemon={pokemon} />
         ))}
       </div>
 
       <div className="mt-8">
-        <Pagination pageInfo={pageInfo} />
+        <Pagination
+          pageInfo={pageInfo}
+          goToPage={handleGoToPage}
+          changePageSize={handleChangePageSize}
+        />
       </div>
     </main>
   )

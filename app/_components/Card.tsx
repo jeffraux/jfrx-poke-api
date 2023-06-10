@@ -26,13 +26,19 @@ const Card = ({ pokemon }: IProps) => {
 
   return (
     <div className="bg-white w-48 p-4 shadow-lg rounded-md flex flex-col items-center">
-      {details && details.sprites && (
+      {loading ? (
+         <div className="animate-pulse w-24 h-24 rounded-md bg-slate-300 flex items-center justify-center"></div>
+      ) : details && details.sprites && details.sprites.front_default ? (
         <Image
           src={details.sprites.front_default}
           alt={pokemon.name}
           width={96}
           height={96}
         />
+      ) : (
+        <div className="w-24 h-20 mb-4 rounded-md bg-slate-200 flex items-center justify-center">
+          <span className="text-xs">No image</span>
+        </div>
       )}
 
       <span className="capitalize font-medium mb-2">
@@ -40,7 +46,13 @@ const Card = ({ pokemon }: IProps) => {
       </span>
 
       <div className="inline-flex">
-        {details && details.types.map(type => (
+        {loading ? (
+          <span
+            className={`animate-pulse w-16 bg-slate-300 inline-flex items-center rounded-md capitalize mx-1 px-2 py-1 text-xs font-medium border`}
+          >
+            &nbsp;
+          </span>
+        ) : details && details.types.map(type => (
           <span
             key={type.slot}
             className={`inline-flex items-center rounded-md capitalize mx-1 px-2 py-1 text-xs font-medium border`}
