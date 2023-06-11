@@ -55,7 +55,7 @@ const Pagination = ({ loading, pageInfo, goToPage, changePageSize }: IProps) => 
             type="number"
             value={currentPage}
             onChange={handleChangePage}
-            className="w-14 text-zinc-900 text-sm rounded-md bg-white ring-1 ring-inset ring-gray-300 p-2.5 text-right"
+            className="w-11 text-zinc-900 text-sm rounded-md bg-white ring-1 ring-inset ring-gray-300 p-2.5 text-right"
           />
           <span className="text-zinc-900 text-sm ml-1 mr-2">/ {totalPages}</span>
         </div>

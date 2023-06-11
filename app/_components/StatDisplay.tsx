@@ -4,12 +4,11 @@ import { Stat, StatGrade } from '../_utils/types'
 import { DECENT_THRESHOLD, GOOD_THRESHOLD, GREAT_THRESHOLD, MAX_BASE_STAT, GRADE_COLORS, STAT_NAMES } from '../_utils/constants'
 
 interface IProps {
-  key: string
   stat: Stat
   value: number
 }
 
-const StatDisplay = ({ key, stat, value }: IProps) => {
+const StatDisplay = ({ stat, value }: IProps) => {
   const percentage = (value / MAX_BASE_STAT) * 100
   let grade: StatGrade = 'bad'
 
@@ -24,7 +23,7 @@ const StatDisplay = ({ key, stat, value }: IProps) => {
   }
 
   return (
-    <div key={key} className="flex flex-row w-full items-center mb-2 text-sm">
+    <div className="flex flex-row w-full items-center mb-2 text-sm">
       <div className="w-32 mr-6 text-zinc-600">{STAT_NAMES[stat]}</div>
       <div className="w-16 mr-2 text-zinc-800 font-semibold">{value}</div>
       <div className="h-2 w-full bg-gray-200 rounded-full relative">

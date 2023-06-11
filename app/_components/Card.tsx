@@ -37,7 +37,7 @@ const Card = ({ pokemon, showDetails }: IProps) => {
   }, [])
 
   return (
-    <div onClick={handleOpenDetails} className="bg-white w-36 lg:w-48 p-4 shadow-md rounded-md flex flex-col items-center cursor-pointer hover:shadow-2xl">
+    <div onClick={handleOpenDetails} className="bg-white min-w-full w-36 lg:w-48 p-4 shadow-md rounded-md flex flex-col items-center cursor-pointer hover:shadow-2xl">
       {loading ? (
          <div className="animate-pulse w-24 h-24 rounded-md bg-slate-300 flex items-center justify-center"></div>
       ) : details && details.sprites && details.sprites.front_default ? (
