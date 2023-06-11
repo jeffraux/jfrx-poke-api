@@ -20,13 +20,25 @@ export type PokemonType =
   'unknown' |
   'shadow'
 
+export type Stat =
+  'hp' |
+  'attack' |
+  'defense' |
+  'special-attack' |
+  'special-defense' |
+  'speed' |
+  'accuracy' |
+  'evasion' 
+
+export type StatGrade = 'bad' | 'decent' | 'good' | 'great'
+
 export interface ResultItem {
   name: string
   url?: string
 }
 export interface PokemonStat {
   base_stat: number
-  stat: ResultItem
+  stat: { name: Stat, url: string }
 }
 export interface PokemonTypes {
   slot: number

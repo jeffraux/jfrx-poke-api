@@ -3,17 +3,23 @@ import Image from 'next/image'
 
 import { ResultItem, IPokemonDetails } from '../_utils/types'
 import { fetchDetails } from '../_api'
-import { TYPE_COLORS } from '../_utils/constants'
+
+import TypeChip from './TypeChip'
 
 interface IProps {
   pokemon: ResultItem
   showDetails: (details: IPokemonDetails) => void
-  onClose: () => void
 }
 
-const Card = ({ pokemon, showDetails, onClose }: IProps) => {
+const Card = ({ pokemon, showDetails }: IProps) => {
   const [loading, setLoading] = useState(true)
   const [details, setDetails] = useState<IPokemonDetails>()
+
+  const handleOpenDetails = () => {
+    if (details) {
+      showDetails(details)
+    }
+  }
 
   useEffect(() => {
     fetchDetails({
@@ -31,7 +37,7 @@ const Card = ({ pokemon, showDetails, onClose }: IProps) => {
   }, [])
 
   return (
-    <div className="bg-white w-36 lg:w-48 p-4 shadow-md rounded-md flex flex-col items-center cursor-pointer hover:shadow-2xl">
+    <div onClick={handleOpenDetails} className="bg-white w-36 lg:w-48 p-4 shadow-md rounded-md flex flex-col items-center cursor-pointer hover:shadow-2xl">
       {loading ? (
          <div className="animate-pulse w-24 h-24 rounded-md bg-slate-300 flex items-center justify-center"></div>
       ) : details && details.sprites && details.sprites.front_default ? (
@@ -58,15 +64,7 @@ const Card = ({ pokemon, showDetails, onClose }: IProps) => {
           >
             &nbsp;
           </span>
-        ) : details && details.types.map(type => (
-          <span
-            key={type.slot}
-            className={`inline-flex items-center rounded-md capitalize mx-1 px-2 py-1 text-xs font-medium border`}
-            style={{ backgroundColor: TYPE_COLORS[type.type.name].bg, color: TYPE_COLORS[type.type.name].text, borderColor: TYPE_COLORS[type.type.name].border }}
-          >
-            {type.type.name}
-          </span>
-        ))}
+        ) : details && details.types.map(type => <TypeChip key={type.slot} type={type.type.name} />)}
       </div>
     </div>
   )

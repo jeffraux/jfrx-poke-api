@@ -8,13 +8,15 @@ import Pagination from './_components/Pagination'
 import Overlay from './_components/Overlay'
 
 import { fetchList } from './_api'
-import { IPokemonListResponse, ResultItem } from './_utils/types'
+import { IPokemonDetails, IPokemonListResponse, ResultItem } from './_utils/types'
+import Dialog from './_components/Dialog'
 
 const Home = () => {
   const [pokemonList, setPokemonList] = useState<ResultItem[]>([])
   const [pageInfo, setPageInfo] = useState({ index: 0, size: 10, total: 0 })
   const [loading, setLoading] = useState(true)
   const [showDetails, setShowDetails] = useState(false)
+  const [pokemonDetails, setPokemonDetails] = useState<IPokemonDetails>()
 
   const handleGoToPage = (index: number) => {
     setPageInfo({ ...pageInfo, index })
@@ -25,7 +27,8 @@ const Home = () => {
     setPageInfo({ ...pageInfo, size, index: index || pageInfo.index })
   }
 
-  const onClickPokemonCard = useCallback(() => {
+  const onClickPokemonCard = useCallback((pokemon: IPokemonDetails) => {
+    setPokemonDetails(pokemon)
     setShowDetails(true)
   }, [])
   const onClosePokemonCard = useCallback(() => {
@@ -57,8 +60,8 @@ const Home = () => {
 
   // TODO:
   // pokemon details modal
+  // add error handling
   // add tests
-  // add loading state when changing page size
 
   return (
     <main className="flex min-h-screen flex-col items-center py-12 px-8 font-sans">
@@ -89,7 +92,6 @@ const Home = () => {
               key={i}
               pokemon={{ name: '' }}
               showDetails={() => null}
-              onClose={() => null}
             />
           ))}
           {pokemonList.map(pokemon => (
@@ -97,7 +99,6 @@ const Home = () => {
               key={pokemon.name}
               pokemon={pokemon}
               showDetails={onClickPokemonCard}
-              onClose={onClosePokemonCard}
             />
           ))}
         </div>
@@ -111,6 +112,13 @@ const Home = () => {
           changePageSize={handleChangePageSize}
         />
       </div>
+
+      <Dialog
+        id="pokemonDetailsModal"
+        pokemon={pokemonDetails}
+        open={showDetails}
+        onClose={onClosePokemonCard}
+      />
     </main>
   )
 }

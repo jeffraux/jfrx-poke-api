@@ -21,4 +21,34 @@ const TYPE_COLORS = {
   shadow: { bg: '#fafafa', text: '#525252', border: '#737373' },
 }
 
-export { TYPE_COLORS }
+const STAT_NAMES = {
+  'hp': 'HP',
+  'attack': 'Attack',
+  'defense': 'Defense',
+  'special-attack': 'Sp. Atk',
+  'special-defense': 'Sp. Def',
+  'speed': 'Speed',
+  'accuracy': 'Accuracy',
+  'evasion': 'Evasion',
+}
+
+const MAX_BASE_STAT = 140
+const GREAT_THRESHOLD = 80
+const GOOD_THRESHOLD = 60
+const DECENT_THRESHOLD = 40
+const GRADE_COLORS = {
+  bad: 'rgb(239 68 68)',
+  decent: 'rgb(249 115 22)',
+  good: 'rgb(234 179 8)',
+  great: 'rgb(34 197 94)',
+}
+
+export {
+  TYPE_COLORS,
+  STAT_NAMES,
+  MAX_BASE_STAT,
+  GREAT_THRESHOLD,
+  GOOD_THRESHOLD,
+  DECENT_THRESHOLD,
+  GRADE_COLORS,
+}
