@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 
-import useDebounce from '../_utils/hooks/debounce'
+import { useDebounce } from '../_utils/hooks/debounce'
 
 interface IProps {
   pageInfo: {
@@ -34,13 +34,15 @@ const Pagination = ({ pageInfo, goToPage, changePageSize }: IProps) => {
     changePageSize(newSize, newPageIndex)
   }
 
+  const onChangeDebounced = useDebounce((p) => goToPage(p - 1))
   const handleChangePage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value)
-
     // Validate page number to not exceed total number of pages
-    setCurrentPage(value > totalPages ? totalPages : value)
+    const newPage = value > totalPages ? totalPages : value
+
+    setCurrentPage(newPage)
+    onChangeDebounced(newPage)
   }
-  useDebounce(() => goToPage(currentPage - 1), [currentPage], 500)
 
   return (
     <div className="flex flex-col md:flex-row items-center justify-center">

@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import Image from 'next/image'
 
 import Card from './_components/Card'
@@ -12,17 +12,26 @@ const Home = () => {
   const [pokemonList, setPokemonList] = useState<ResultItem[]>([])
   const [pageInfo, setPageInfo] = useState({ index: 0, size: 10, total: 0 })
   const [loading, setLoading] = useState(false)
+  const [showDetails, setShowDetails] = useState(false)
 
   const handleGoToPage = (index: number) => {
     setPageInfo({ ...pageInfo, index })
   }
 
   const handleChangePageSize = (size: number, index?: number) => {
+    // Show loading only when user changes page size
+    setLoading(true)
     setPageInfo({ ...pageInfo, size, index: index || pageInfo.index })
   }
 
+  const onClickPokemonCard = useCallback(() => {
+    setShowDetails(true)
+  }, [])
+  const onClosePokemonCard = useCallback(() => {
+    setShowDetails(false)
+  }, [])
+
   useEffect(() => {
-    setLoading(true)
     fetchList({
       endpoint: 'pokemon',
       limit: pageInfo.size,
@@ -58,7 +67,12 @@ const Home = () => {
 
       <div className="mb-2 grid gap-6 text-center grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
         {pokemonList.map(pokemon => (
-          <Card key={pokemon.name} pokemon={pokemon} />
+          <Card
+            key={pokemon.name}
+            pokemon={pokemon}
+            showDetails={onClickPokemonCard}
+            onClose={onClosePokemonCard}
+          />
         ))}
       </div>
 

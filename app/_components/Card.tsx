@@ -7,9 +7,11 @@ import { TYPE_COLORS } from '../_utils/constants'
 
 interface IProps {
   pokemon: ResultItem
+  showDetails: (details: IPokemonDetails) => void
+  onClose: () => void
 }
 
-const Card = ({ pokemon }: IProps) => {
+const Card = ({ pokemon, showDetails, onClose }: IProps) => {
   const [loading, setLoading] = useState(false)
   const [details, setDetails] = useState<IPokemonDetails>()
 
@@ -25,7 +27,7 @@ const Card = ({ pokemon }: IProps) => {
   }, [pokemon.url])
 
   return (
-    <div className="bg-white w-36 lg:w-48 p-4 shadow-lg rounded-md flex flex-col items-center">
+    <div className="bg-white w-36 lg:w-48 p-4 shadow-md rounded-md flex flex-col items-center cursor-pointer hover:shadow-2xl">
       {loading ? (
          <div className="animate-pulse w-24 h-24 rounded-md bg-slate-300 flex items-center justify-center"></div>
       ) : details && details.sprites && details.sprites.front_default ? (
@@ -66,4 +68,4 @@ const Card = ({ pokemon }: IProps) => {
   )
 }
 
-export default Card
+export default React.memo(Card)
