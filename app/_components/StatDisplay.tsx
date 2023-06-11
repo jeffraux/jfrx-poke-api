@@ -10,6 +10,7 @@ interface IProps {
 }
 
 const StatDisplay = ({ key, stat, value }: IProps) => {
+  const percentage = (value / MAX_BASE_STAT) * 100
   let grade: StatGrade = 'bad'
 
   if (value > DECENT_THRESHOLD) {
@@ -23,14 +24,14 @@ const StatDisplay = ({ key, stat, value }: IProps) => {
   }
 
   return (
-    <div key={key} className="flex flex-row w-full items-center mb-2 text-sm text-zinc-900">
-      <div className="w-32 mr-6">{STAT_NAMES[stat]}</div>
-      <div className="w-16 mr-2">{value}</div>
+    <div key={key} className="flex flex-row w-full items-center mb-2 text-sm">
+      <div className="w-32 mr-6 text-zinc-600">{STAT_NAMES[stat]}</div>
+      <div className="w-16 mr-2 text-zinc-800 font-semibold">{value}</div>
       <div className="h-2 w-full bg-gray-200 rounded-full relative">
         <div
           className="absolute top-0 left-0 h-2 rounded-full"
           style={{
-            width: `${(value / MAX_BASE_STAT) * 100}%`,
+            width: `${percentage > 100 ? 100 : percentage}%`,
             backgroundColor: GRADE_COLORS[grade],
           }}
         />

@@ -59,7 +59,6 @@ const Home = () => {
   }, [pageInfo.index, pageInfo.size])
 
   // TODO:
-  // pokemon details modal
   // add error handling
   // add tests
 

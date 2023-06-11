@@ -41,10 +41,10 @@ const Dialog = ({ id, pokemon, open, onClose }: IProps) => {
                 </div>
               )}
 
-              <h3 className="text-xl font-semibold text-gray-900 capitalize">
+              <h3 className="text-xl font-bold text-zinc-900 capitalize">
                 {pokemon.name.replaceAll('-', ' ')}
               </h3>
-              <span className="text-gray-400 mb-2">
+              <span className="text-zinc-500 mb-2">
                 No. {pokemon.id < 10 ? `00${pokemon.id}` : pokemon.id < 100 ? `0${pokemon.id}` : pokemon.id }
               </span>
               <div className="flex flex-row">

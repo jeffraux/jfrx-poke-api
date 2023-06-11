@@ -1,6 +1,7 @@
 import { IListApiRequest, IDetailsApiRequest } from '../_utils/types'
 
 const API = 'https://pokeapi.co/api/v2'
+
 /**
  * Fetch list resource from PokeAPI
  * @param endpoint The endpoint name from PokeAPI
