@@ -17,8 +17,8 @@ const Home = () => {
     setPageInfo({ ...pageInfo, index })
   }
 
-  const handleChangePageSize = (size: number) => {
-    setPageInfo({ ...pageInfo, size })
+  const handleChangePageSize = (size: number, index?: number) => {
+    setPageInfo({ ...pageInfo, size, index: index || pageInfo.index })
   }
 
   useEffect(() => {
@@ -39,6 +39,11 @@ const Home = () => {
     })
   }, [pageInfo.index, pageInfo.size])
 
+  // TODO:
+  // pokemon details modal
+  // add tests
+  // add loading state when changing page size
+
   return (
     <main className="flex min-h-screen flex-col items-center p-12 font-sans">
       <div className="z-10 w-full max-w-5xl mb-16 items-center justify-center text-sm flex">
@@ -51,7 +56,7 @@ const Home = () => {
         />
       </div>
 
-      <div className="mb-2 grid gap-6 text-center sm:grid-cols-2 lg:grid-cols-5">
+      <div className="mb-2 grid gap-6 text-center grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
         {pokemonList.map(pokemon => (
           <Card key={pokemon.name} pokemon={pokemon} />
         ))}

@@ -22,10 +22,10 @@ const Card = ({ pokemon }: IProps) => {
         setLoading(false)
       }
     })
-  }, [])
+  }, [pokemon.url])
 
   return (
-    <div className="bg-white w-48 p-4 shadow-lg rounded-md flex flex-col items-center">
+    <div className="bg-white w-36 lg:w-48 p-4 shadow-lg rounded-md flex flex-col items-center">
       {loading ? (
          <div className="animate-pulse w-24 h-24 rounded-md bg-slate-300 flex items-center justify-center"></div>
       ) : details && details.sprites && details.sprites.front_default ? (
@@ -42,7 +42,7 @@ const Card = ({ pokemon }: IProps) => {
       )}
 
       <span className="capitalize font-medium mb-2">
-        {pokemon.name}
+        {pokemon.name.replaceAll('-', ' ')}
       </span>
 
       <div className="inline-flex">
