@@ -22,7 +22,7 @@ export type PokemonType =
 
 export interface ResultItem {
   name: string
-  url: string
+  url?: string
 }
 export interface PokemonStat {
   base_stat: number
@@ -41,7 +41,7 @@ export interface IListApiRequest {
 }
 
 export interface IDetailsApiRequest {
-  url: string
+  url?: string
   callback: (res: IPokemonDetails) => void
 }
 

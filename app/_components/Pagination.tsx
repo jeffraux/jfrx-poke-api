@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { useDebounce } from '../_utils/hooks/debounce'
 
 interface IProps {
+  loading: boolean
   pageInfo: {
     index: number
     size: number
@@ -13,7 +14,7 @@ interface IProps {
   changePageSize: (size: number, index?: number) => void
 }
 
-const Pagination = ({ pageInfo, goToPage, changePageSize }: IProps) => {
+const Pagination = ({ loading, pageInfo, goToPage, changePageSize }: IProps) => {
   const [currentPage, setCurrentPage] = useState(pageInfo.index + 1)
   const totalPages = Math.ceil(pageInfo.total / pageInfo.size)
 
@@ -50,6 +51,7 @@ const Pagination = ({ pageInfo, goToPage, changePageSize }: IProps) => {
         <div className="flex flex-row items-center mr-4">
           <span className="text-zinc-900 text-sm mr-2">Page</span>
           <input
+            disabled={loading}
             type="number"
             value={currentPage}
             onChange={handleChangePage}
@@ -67,6 +69,7 @@ const Pagination = ({ pageInfo, goToPage, changePageSize }: IProps) => {
             }}
             onChange={handleChangePageSize}
             defaultValue={10}
+            disabled={loading}
           >
             <option value={10}>10 / page</option>
             <option value={20}>20 / page</option>
@@ -80,7 +83,7 @@ const Pagination = ({ pageInfo, goToPage, changePageSize }: IProps) => {
         <button
           className="relative bg-white inline-flex w-24 items-center justify-center rounded-l-md p-2 ring-1 ring-inset ring-gray-300 hover:bg-sky-100 focus:z-20 focus:outline-offset-0 disabled:opacity-40 disabled:hover:bg-white"
           onClick={(e) => handleClick(e, pageInfo.index - 1)}
-          disabled={pageInfo.index === 0}
+          disabled={pageInfo.index === 0 || loading}
         >
           <Image alt="Previous" src="/chevron-left.svg" height={24} width={24} />
           <span className="text-zinc-900 text-sm">Previous</span>
@@ -89,7 +92,7 @@ const Pagination = ({ pageInfo, goToPage, changePageSize }: IProps) => {
         <button
           className="relative bg-white inline-flex w-24 items-center justify-center rounded-r-md px-2 py-2 ring-1 ring-inset ring-gray-300 hover:bg-sky-100 focus:z-20 focus:outline-offset-0 disabled:opacity-40 disabled:hover:bg-white"
           onClick={(e) => handleClick(e, pageInfo.index + 1)}
-          disabled={pageInfo.index >= totalPages - 1}
+          disabled={pageInfo.index >= totalPages - 1  || loading}
         >
           <span className="text-zinc-900 text-sm">Next</span>
           <Image alt="Next" src="/chevron-right.svg" height={24} width={24} />

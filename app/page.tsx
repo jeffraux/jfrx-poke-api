@@ -7,7 +7,7 @@ import Spinner from './_components/Spinner'
 import Pagination from './_components/Pagination'
 import Overlay from './_components/Overlay'
 
-import { fetchList } from './api'
+import { fetchList } from './_api'
 import { IPokemonListResponse, ResultItem } from './_utils/types'
 
 const Home = () => {
@@ -79,19 +79,19 @@ const Home = () => {
         :
         <div className="mb-2 grid gap-6 text-center rounded-md grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 relative p-6">
           {loading && (
-            <div>
+            <Fragment>
               <Spinner />
               <Overlay />
-              {pokemonList.length === 0 && Array.from(Array(10).keys()).map(i => (
-                <Card
-                  key={i}
-                  pokemon={{ name: '', url: '' }}
-                  showDetails={() => null}
-                  onClose={() => null}
-                />
-              ))}
-            </div>
+            </Fragment>
           )}
+          {loading && pokemonList.length === 0 && Array.from(Array(10).keys()).map(i => (
+            <Card
+              key={i}
+              pokemon={{ name: '' }}
+              showDetails={() => null}
+              onClose={() => null}
+            />
+          ))}
           {pokemonList.map(pokemon => (
             <Card
               key={pokemon.name}
@@ -105,6 +105,7 @@ const Home = () => {
 
       <div className="mt-8">
         <Pagination
+          loading={loading}
           pageInfo={pageInfo}
           goToPage={handleGoToPage}
           changePageSize={handleChangePageSize}

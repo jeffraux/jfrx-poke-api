@@ -31,6 +31,8 @@ const fetchList = async (req: IListApiRequest) => {
  * @returns 
  */
 const fetchDetails = async (req: IDetailsApiRequest) => {
+  if (!req.url) return
+
   return fetch(req.url)
     .then(response => {
       if (response.status === 200) {
@@ -39,6 +41,9 @@ const fetchDetails = async (req: IDetailsApiRequest) => {
     })
     .then(data => {
       req.callback(data)
+    })
+    .catch(e => {
+      console.log(e)
     })
 }
 

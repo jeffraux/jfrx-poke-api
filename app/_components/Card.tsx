@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 
 import { ResultItem, IPokemonDetails } from '../_utils/types'
-import { fetchDetails } from '../api'
+import { fetchDetails } from '../_api'
 import { TYPE_COLORS } from '../_utils/constants'
 
 interface IProps {
@@ -28,7 +28,7 @@ const Card = ({ pokemon, showDetails, onClose }: IProps) => {
         setLoading(false)
       }
     })
-  }, [pokemon.url])
+  }, [])
 
   return (
     <div className="bg-white w-36 lg:w-48 p-4 shadow-md rounded-md flex flex-col items-center cursor-pointer hover:shadow-2xl">
