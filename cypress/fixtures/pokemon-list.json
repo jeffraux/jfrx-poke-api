@@ -1,0 +1,19 @@
+{
+  "count": 3,
+  "next": "",
+  "previous": null,
+  "results": [
+    {
+      "name": "bulbasaur",
+      "url": ""
+    },
+    {
+      "name": "charmander",
+      "url": ""
+    },
+    {
+      "name": "squirtle",
+      "url": ""
+    }
+  ]
+}
