@@ -89,7 +89,7 @@ const Pagination = ({ pageInfo, goToPage, changePageSize }: IProps) => {
         <button
           className="relative bg-white inline-flex w-24 items-center justify-center rounded-r-md px-2 py-2 ring-1 ring-inset ring-gray-300 hover:bg-sky-100 focus:z-20 focus:outline-offset-0 disabled:opacity-40 disabled:hover:bg-white"
           onClick={(e) => handleClick(e, pageInfo.index + 1)}
-          disabled={pageInfo.index === totalPages - 1}
+          disabled={pageInfo.index >= totalPages - 1}
         >
           <span className="text-zinc-900 text-sm">Next</span>
           <Image alt="Next" src="/chevron-right.svg" height={24} width={24} />

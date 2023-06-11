@@ -1,17 +1,19 @@
 'use client'
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, Fragment } from 'react'
 import Image from 'next/image'
 
 import Card from './_components/Card'
-
-import { fetchList } from './_utils/api'
-import { IPokemonListResponse, ResultItem } from './_utils/types'
+import Spinner from './_components/Spinner'
 import Pagination from './_components/Pagination'
+import Overlay from './_components/Overlay'
+
+import { fetchList } from './api'
+import { IPokemonListResponse, ResultItem } from './_utils/types'
 
 const Home = () => {
   const [pokemonList, setPokemonList] = useState<ResultItem[]>([])
   const [pageInfo, setPageInfo] = useState({ index: 0, size: 10, total: 0 })
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [showDetails, setShowDetails] = useState(false)
 
   const handleGoToPage = (index: number) => {
@@ -20,7 +22,6 @@ const Home = () => {
 
   const handleChangePageSize = (size: number, index?: number) => {
     // Show loading only when user changes page size
-    setLoading(true)
     setPageInfo({ ...pageInfo, size, index: index || pageInfo.index })
   }
 
@@ -32,17 +33,23 @@ const Home = () => {
   }, [])
 
   useEffect(() => {
+    setLoading(true)
     fetchList({
       endpoint: 'pokemon',
       limit: pageInfo.size,
       offset: pageInfo.index * pageInfo.size,
-      callback: (res: IPokemonListResponse) => {
-        setPageInfo({
-          index: pageInfo.index,
-          size: pageInfo.size,
-          total: res.count,
-        })
-        setPokemonList(res.results)
+      callback: (res?: IPokemonListResponse) => {
+        if (res) {
+          setPageInfo({
+            index: pageInfo.index,
+            size: pageInfo.size,
+            total: res.count,
+          })
+          setPokemonList(res.results)
+        } else {
+          // show error
+        }
+
         setLoading(false)
       }
     })
@@ -54,8 +61,8 @@ const Home = () => {
   // add loading state when changing page size
 
   return (
-    <main className="flex min-h-screen flex-col items-center p-12 font-sans">
-      <div className="z-10 w-full max-w-5xl mb-16 items-center justify-center text-sm flex">
+    <main className="flex min-h-screen flex-col items-center py-12 px-8 font-sans">
+      <div className="z-10 w-full max-w-5xl mb-4 items-center justify-center text-sm flex">
         <Image
           src="https://raw.githubusercontent.com/PokeAPI/media/master/logo/pokeapi_256.png"
           alt="Poke API logo"
@@ -65,16 +72,36 @@ const Home = () => {
         />
       </div>
 
-      <div className="mb-2 grid gap-6 text-center grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-        {pokemonList.map(pokemon => (
-          <Card
-            key={pokemon.name}
-            pokemon={pokemon}
-            showDetails={onClickPokemonCard}
-            onClose={onClosePokemonCard}
-          />
-        ))}
-      </div>
+      {!loading && pokemonList.length === 0 ?
+        <div className="mb-2 text-center rounded-md p-6">
+          <span className="text-sm text-zinc-700">No data available</span>
+        </div>
+        :
+        <div className="mb-2 grid gap-6 text-center rounded-md grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 relative p-6">
+          {loading && (
+            <div>
+              <Spinner />
+              <Overlay />
+              {pokemonList.length === 0 && Array.from(Array(10).keys()).map(i => (
+                <Card
+                  key={i}
+                  pokemon={{ name: '', url: '' }}
+                  showDetails={() => null}
+                  onClose={() => null}
+                />
+              ))}
+            </div>
+          )}
+          {pokemonList.map(pokemon => (
+            <Card
+              key={pokemon.name}
+              pokemon={pokemon}
+              showDetails={onClickPokemonCard}
+              onClose={onClosePokemonCard}
+            />
+          ))}
+        </div>
+      }
 
       <div className="mt-8">
         <Pagination

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 
 import { ResultItem, IPokemonDetails } from '../_utils/types'
-import { fetchDetails } from '../_utils/api'
+import { fetchDetails } from '../api'
 import { TYPE_COLORS } from '../_utils/constants'
 
 interface IProps {
@@ -12,15 +12,19 @@ interface IProps {
 }
 
 const Card = ({ pokemon, showDetails, onClose }: IProps) => {
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [details, setDetails] = useState<IPokemonDetails>()
 
   useEffect(() => {
-    setLoading(true)
     fetchDetails({
       url: pokemon.url,
       callback: (res: IPokemonDetails) => {
-        setDetails(res)
+        if (res) {
+          setDetails(res)
+        } else {
+          // show error
+        }
+
         setLoading(false)
       }
     })
